@@ -9,7 +9,7 @@ bb_name: bb-example
 bb_docker_namespace: "elbb"
 ## Specifies insecure docker registries, format "host:port" or "ip:port"
 bb_insecure_registries: []
-## Specify if 'latest' tags are built for `git_branch`
+## Specify if 'latest' tags are build for `git_branch`
 bb_release_as_latest: true
 
 ## Specifies the version used for bb-gitversion
