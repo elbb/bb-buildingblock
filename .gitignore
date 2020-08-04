@@ -9,3 +9,6 @@ gen
 ci/credentials.yaml
 ci/config.local.yaml
 example/ci/ci/credentials.yaml
+
+#ide
+.vscode

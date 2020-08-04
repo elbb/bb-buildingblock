@@ -3,14 +3,15 @@
 # -------------
 ## Specifies the name of the building block
 bb_name: bb-example
-## Specifies the destination of the docker image artifact
-# Using local environment for docker registry
-bb_destination: registry:5000/elbb/bb-example
+## Specify the namespace for the building block image. This gets prefixed before <prefix>/<bb_name>
+### example: bb_docker_namespace: "registry:5000/elbb" results in using "registry:5000/elbb/<bb_name>"
+### "elbb" means using the docker hub, e.g. "elbb/<bb-name>"
+bb_docker_namespace: "registry:5000/elbb"
 ## Specifies insecure docker registries, format "host:port" or "ip:port"
-bb_destination_insecure_registries: ["registry:5000"]
+bb_insecure_registries: ["registry:5000"]
+## Specify if 'latest' tags are built for `git_branch`
+bb_release_as_latest: true
 
-# Versioning stuff
-# ----------------
 ## Specifies the version used for bb-gitversion
 bb_gitversion_version: 0.6.2
 
@@ -20,8 +21,6 @@ bb_gitversion_version: 0.6.2
 git_source: https://github.com/elbb/bb-example.git
 ## Specify the git branch to work with
 git_branch: example
-## Specify the release git branch
-git_release_branch: master
 ## This enables/disables ssl verification of the git resource
 git_skip_ssl_verification: false
 
