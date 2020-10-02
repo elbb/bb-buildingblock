@@ -85,7 +85,7 @@ job=echo-version
 ## Using concourse CI for a CI/CD build
 
 The pipeline file must be uploaded to concourse CI via `fly`. 
-Enter the build users ssh private key into the file `ci/credentials.template.yaml` and rename it to `ci/credentials.yaml`. 
+Enter the build users ssh private key into the file `ci/credentials.template.yaml` and rename it to `ci/credentials.yaml`. Note the indentation of the ssh key as in the template file.
 
 **Note: `credentials.yaml` is ignored by `.gitignore` and will not be checked in.**
 

@@ -70,7 +70,34 @@ Note 3: If you are running the local docker registry, you might add this to the 
 
 **Note: Make sure that you have set up ssh access with your ssh-key in your git repository.**
 
-Fill in your ssh private key and your credentials for the docker registry and S3 server in `credentials.example.yaml` and rename it to `credentials.yaml`.
+Fill in your ssh private key and your credentials for the docker registry and S3 server in `credentials.example.yaml` and rename it to `credentials.yaml`. Note the indentation of the ssh key as in the example file.
+
+### Email notification
+
+The concourse ci environment automatically could send an e-mail notification about the current build status.
+Copy the file `ci/email.template.yaml` to `ci/email.yaml` and enter the email server configuration and email addresses.
+For further information how to configure the email notification, see:
+
+<https://github.com/pivotal-cf/email-resource>
+
+The provided pipeline.yaml file demonstrate the usage of email notification.
+
+### Microsoft Teams notification
+
+In addition to email notification, it is possible to send a notification to Microsoft Teams about the current status of the ci build.
+Copy the file `ci/msteams.template.yaml` to `ci/msteams.yaml` and enter the webhook url for your  ms teams channel.
+For  webhook url generation, see [MS Teams setup](####MS-Teams-setup).
+
+The provided pipeline.yaml file demonstrate the usage of ms teams notification.
+
+#### MS Teams setup
+
+- Open the Microsoft Teams UI.
+- Identify the channel you wish to post notifications to - ie: #devops....
+- Open the "more options" menu of that channel and select "Connectors".
+- Select "Incoming Webhook" and respond to the propts for details like the icon and name of the connector.
+- Use the webhook url from above in your pipeline source definition. 
+
 
 ### pipeline.yaml
 
@@ -142,5 +169,11 @@ Once you've setup your concourse CI server (either hosted or local) upload the p
 
     $ cd example/ci
     $ fly -t <target> set-pipeline -n -p bb-example -l ci/config.yaml -l ci/credentials.yaml -c pipeline.yaml
+    $
+    $ # example with email notification
+    $ fly -t <target> set-pipeline -n -p bb-example -l ci/config.yaml -l ci/credentials.yaml -l ci/email.yaml -c pipeline.yaml
+    $
+    $ # example with ms teams notification
+    $ fly -t <target> set-pipeline -n -p bb-example -l ci/config.yaml -l ci/credentials.yaml -l ci/msteams.yaml -c pipeline.yaml
 
 If your build succeeds, overwrite the the `pipeline.yaml` and `ci/` with your modified pipeline from `example/ci`. You are free to remove `example/ci`.
