@@ -74,13 +74,13 @@ Fill in your ssh private key and your credentials for the docker registry and S3
 
 ### Email notification
 
-The concourse ci environment automatically could send an e-mail notification about the current build status.
+The concourse ci environment can automatically send an e-mail notification about the current build status.
 Copy the file `ci/email.template.yaml` to `ci/email.yaml` and enter the email server configuration and email addresses.
 For further information how to configure the email notification, see:
 
 <https://github.com/pivotal-cf/email-resource>
 
-The provided pipeline.yaml file demonstrate the usage of email notification.
+The provided pipeline.yaml file demonstrates the usage of email notification.
 
 ### Microsoft Teams notification
 
@@ -88,7 +88,7 @@ In addition to email notification, it is possible to send a notification to Micr
 Copy the file `ci/msteams.template.yaml` to `ci/msteams.yaml` and enter the webhook url for your  ms teams channel.
 For  webhook url generation, see [MS Teams setup](####MS-Teams-setup).
 
-The provided pipeline.yaml file demonstrate the usage of ms teams notification.
+The provided pipeline.yaml file demonstrates the usage of ms teams notification.
 
 #### MS Teams setup
 
