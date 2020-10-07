@@ -6,9 +6,16 @@ gen
 .dobi
 
 #ci
-ci/credentials.yaml
-ci/config.local.yaml
 example/ci/ci/credentials.yaml
+example/ci/ci/credentials.*.yaml
+!example/ci/ci/credentials.example.yaml
+example/ci/ci/config.local.yaml
+example/ci/ci/email.yaml
+example/ci/ci/email.*.yaml
+!example/ci/ci/email.template.yaml
+example/ci/ci/msteams.yaml
+example/ci/ci/msteams.*.yaml
+!example/ci/ci/msteams.template.yaml
 
 #ide
 .vscode

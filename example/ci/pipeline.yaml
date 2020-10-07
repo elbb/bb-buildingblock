@@ -1,3 +1,16 @@
+resource_types:
+  - name: email
+    type: docker-image
+    source:
+      repository: pcfseceng/email-resource
+      tag: 1.0.19
+
+  - name: teams-notification
+    type: docker-image
+    source:
+      repository: nexeck/concourse-teams-resource
+      tag: latest
+
 resources:
   - name: source
     type: git
@@ -37,9 +50,67 @@ resources:
       password: ((registry_password))
       insecure_registries: ((bb_insecure_registries))
 
+  - name: send-an-email
+    type: email
+    source:
+      smtp:
+        host: ((email_smtp_host_url))
+        port: ((email_smtp_port))
+        anonymous: ((email_smtp_anonymous))
+        username: ((email_smtp_user))
+        password: ((email_smtp_pw))
+        skip_ssl_validation: ((email_smtp_skip_ssl_validation))
+        ca_cert: ((email_smtp_ca_cert))
+        host_origin: ((email_smtp_host_origin))
+        login_auth: ((email_smtp_login_auth))
+      from:  ((email_from))
+      to: ((email_to))
+
+  - name: alert
+    type: teams-notification
+    source:
+      url: ((ms_teams_channel_url))
+
 jobs:
   - name: Generate gitversion and put it on S3
     public: true
+
+    on_abort:
+      put: send-an-email
+      params:
+        subject_text: "ci ${BUILD_PIPELINE_NAME}: build ${BUILD_ID} aborted!"
+        body_text: |
+          Uups!
+          Build ID: "${BUILD_ID}"
+          Build Name: "${BUILD_NAME}"
+          Build Job Name: "${BUILD_JOB_NAME}"
+          Build Pipeline Name: "${BUILD_PIPELINE_NAME}"
+          ATC External URL: "${ATC_EXTERNAL_URL}"
+
+      put: alert
+      params:
+        status: abort
+        text: |
+         [$BUILD_PIPELINE_NAME/BUILD_JOB_NAME #$BUILD_NAME]($ATC_EXTERNAL_URL/builds/$BUILD_ID) aborted. :-(
+
+    on_failure:
+      put: send-an-email
+      params:
+        subject_text: "ci ${BUILD_PIPELINE_NAME}: build ${BUILD_ID} failed!"
+        body_text: |
+          Oh no!
+          Build ID: "${BUILD_ID}"
+          Build Name: "${BUILD_NAME}"
+          Build Job Name: "${BUILD_JOB_NAME}"
+          Build Pipeline Name: "${BUILD_PIPELINE_NAME}"
+          ATC External URL: "${ATC_EXTERNAL_URL}"
+
+      put: alert
+      params:
+        status: failure
+        text: |
+         [$BUILD_PIPELINE_NAME/BUILD_JOB_NAME #$BUILD_NAME]($ATC_EXTERNAL_URL/builds/$BUILD_ID) failed. :-(
+
     plan:
       - in_parallel:
           - get: image-bb-gitversion-tool
@@ -93,6 +164,61 @@ jobs:
 
   - name: Create docker image for ((bb_name)) and push it
     public: true
+
+    on_success:
+      put: send-an-email
+      params:
+        subject_text: "ci ${BUILD_PIPELINE_NAME}: build ${BUILD_ID} success!"
+        body_text: |
+          Oh yes!
+          Build ID: "${BUILD_ID}"
+          Build Name: "${BUILD_NAME}"
+          Build Job Name: "${BUILD_JOB_NAME}"
+          Build Pipeline Name: "${BUILD_PIPELINE_NAME}"
+          ATC External URL: "${ATC_EXTERNAL_URL}"
+
+      put: alert
+      params:
+        status: success
+        text: |
+         [$BUILD_PIPELINE_NAME/BUILD_JOB_NAME #$BUILD_NAME]($ATC_EXTERNAL_URL/builds/$BUILD_ID) success. :-)
+
+    on_abort:
+      put: send-an-email
+      params:
+        subject_text: "ci ${BUILD_PIPELINE_NAME}: build ${BUILD_ID} aborted!"
+        body_text: |
+          Uups!
+          Build ID: "${BUILD_ID}"
+          Build Name: "${BUILD_NAME}"
+          Build Job Name: "${BUILD_JOB_NAME}"
+          Build Pipeline Name: "${BUILD_PIPELINE_NAME}"
+          ATC External URL: "${ATC_EXTERNAL_URL}"
+
+      put: alert
+      params:
+        status: abort
+        text: |
+         [$BUILD_PIPELINE_NAME/BUILD_JOB_NAME #$BUILD_NAME]($ATC_EXTERNAL_URL/builds/$BUILD_ID) aborted. :-(
+
+    on_failure:
+      put: send-an-email
+      params:
+        subject_text: "ci ${BUILD_PIPELINE_NAME}: build ${BUILD_ID} failed!"
+        body_text: |
+          Oh no!
+          Build ID: "${BUILD_ID}"
+          Build Name: "${BUILD_NAME}"
+          Build Job Name: "${BUILD_JOB_NAME}"
+          Build Pipeline Name: "${BUILD_PIPELINE_NAME}"
+          ATC External URL: "${ATC_EXTERNAL_URL}"
+
+      put: alert
+      params:
+        status: failure
+        text: |
+         [$BUILD_PIPELINE_NAME/BUILD_JOB_NAME #$BUILD_NAME]($ATC_EXTERNAL_URL/builds/$BUILD_ID) failed. :-(
+
     plan:
       - in_parallel:
           - get: source
