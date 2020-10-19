@@ -17,15 +17,15 @@ mount=mount-buildingblock-gitversion-gen-dir:
 # ===================================================
 
 image=image-buildingblock-gitversion:
-  image: elbb/bb-gitversion
-  tags: ["0.6.2"]
+  image: "elbb/bb-gitversion"
+  tags: ["{env.VERSION_BB_GITVERSION}"]
   pull: once
 
 # ===================================================
 # jobs
 # ===================================================
 
-job=buildingblock-version:
+job=version:
   use: image-buildingblock-gitversion
   mounts:
     - mount-buildingblock-gitversion-source-dir
@@ -34,3 +34,5 @@ job=buildingblock-version:
   artifact: "gen/gitversion/"
   env:
     - "USERID={user.uid}"
+  annotations:
+    description: "-> generate version informations (auto called by dobi.sh)"

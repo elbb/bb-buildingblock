@@ -2,23 +2,17 @@
 # alias
 # ===================================================
 
-alias=bb-buildingblock-version:
-  tasks:
-  - buildingblock-version
-  annotations:
-    description: "-> generate version informations (auto called by dobi.sh)"
-
-alias=bb-buildingblock-build:
+alias=build:
   tasks: []
   annotations:
     description: "-> build all content (not implemented yet)"
 
-alias=bb-buildingblock-deploy:
+alias=deploy:
   tasks: []
   annotations:
     description: "-> deploy all content (not implemented yet)"
 
-alias=bb-buildingblock-test: 
+alias=test:
   tasks: []
-  annotations: 
+  annotations:
     description: "-> test all content (not implemented yet)"
