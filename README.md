@@ -1,14 +1,14 @@
 <img src="https://raw.githubusercontent.com/elbb/bb-buildingblock/master/.assets/logo.png" height="200">
 
-# embedded linux building block template
+# (e)mbedded (l)inux (b)uilding (b)lock template
 
 This code serves as a template for the creation of further building blocks with the purpose of giving all blocks a uniform structure and usage.
 
 ## Prerequisites
 
-Install the following prereuisites:
 -   [docker](https://docs.docker.com/install/)
--   [dobi](https://github.com/dnephin/dobi)
+-   [dobi](https://github.com/dnephin/dobi) (downloaded if not in `PATH`)
+-   [concourse](https://concourse-ci.org/) (ci/cd)
 
 ## Howto use bb-buildingblock template
 
@@ -81,10 +81,18 @@ job=echo-version
     - "VERSION={env.GitVersion_BranchVersion}"
 ```
 
+### Default project variables
+
+Edit `./default.env` to set default project variables.
+
+### Local project variables
+
+If you want to override project variables, copy `./local.env.template` to `./local.env` and edit `./local.env` accordingly.<br>
+`./local.env` is ignored by git via `./.gitignore`.
 
 ## Using concourse CI for a CI/CD build
 
-The pipeline file must be uploaded to concourse CI via `fly`. 
+The pipeline file must be uploaded to concourse CI via `fly`.
 Enter the build users ssh private key into the file `ci/credentials.template.yaml` and rename it to `ci/credentials.yaml`. Note the indentation of the ssh key as in the template file.
 
 **Note: `credentials.yaml` is ignored by `.gitignore` and will not be checked in.**
@@ -103,8 +111,8 @@ See the [integration documentation](README_CICD_INTEGRATION.md) on how to modify
 
 This template building block uses [bb-gitversion](https://github.com/elbb/bb-gitversion) to compute the semantic version of itself from the git history on the bases of git tags.
 
-Using `dobi.sh` the version is updated when necessary and published in environment variables. You can use these environment variables in your dobi targets. 
-See `./gen/gitversion/env/gitversion.env` for a detailed list of version environment variables. 
+Using `dobi.sh` the version is updated when necessary and published in environment variables. You can use these environment variables in your dobi targets.
+See `./gen/gitversion/env/gitversion.env` for a detailed list of version environment variables.
 These key-value pairs are also generated into other representations:
 ```
 ./gen/gitversion/cpp/elbb/version.h    #c++ header

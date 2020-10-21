@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2020.Q4
+
+- added `default.env`, `local.env.template` and doku how to use it -> enables setting default and local environment variables for `dobi` targets
+- `dobi.sh` downloads `dobi` if `dobi` is not `$PATH`
+- `dobi.sh`: parameter checking and handling for `dobi` target `list` and `dobi.sh` target `version`
+
 ## [0.5.0] - 2020.Q4
 
 -  added email and ms teams notification
