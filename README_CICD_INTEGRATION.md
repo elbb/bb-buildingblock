@@ -76,17 +76,29 @@ Fill in your ssh private key and your credentials for the docker registry and S3
 
 The concourse ci environment can automatically send an e-mail notification about the current build status.
 Copy the file `ci/email.template.yaml` to `ci/email.yaml` and enter the email server configuration and email addresses.
-For further information how to configure the email notification, see:
+For further information how to configure the email notification, see: <https://github.com/pivotal-cf/email-resource>
 
-<https://github.com/pivotal-cf/email-resource>
+**Note: `email.yaml` is ignored by `.gitignore` and will not be checked in.**
 
 The provided pipeline.yaml file demonstrates the usage of email notification.
+
+### Upload to concourse
+
+The pipeline file must be uploaded to concourse CI via `fly`.
+Before setting the pipeline you might login first to your concourse instance `fly -t <target> login --concourse-url http://<concourse>:<port>`. See the [fly documentation](https://concourse-ci.org/fly.html) for more help.
+Upload the pipeline file with fly:
+
+    $ fly -t <target> set-pipeline -n -p bb-buildingblock -l ci/config.yaml -l ci/credentials.yaml -l ci/email.yaml -c pipeline.yaml
+
+After successfully uploading the pipeline to concourse CI login and unpause it. After that the pipeline should be triggered by new commits on the master branch (or new tags if enabled in `pipeline.yaml`).
 
 ### Microsoft Teams notification
 
 In addition to email notification, it is possible to send a notification to Microsoft Teams about the current status of the ci build.
 Copy the file `ci/msteams.template.yaml` to `ci/msteams.yaml` and enter the webhook url for your  ms teams channel.
 For  webhook url generation, see [MS Teams setup](####MS-Teams-setup).
+
+**Note: `msteams.yaml` is ignored by `.gitignore` and will not be checked in.**
 
 The provided pipeline.yaml file demonstrates the usage of ms teams notification.
 
@@ -96,7 +108,7 @@ The provided pipeline.yaml file demonstrates the usage of ms teams notification.
 - Identify the channel you wish to post notifications to - ie: #devops....
 - Open the "more options" menu of that channel and select "Connectors".
 - Select "Incoming Webhook" and respond to the propts for details like the icon and name of the connector.
-- Use the webhook url from above in your pipeline source definition. 
+- Use the webhook url from above in your pipeline source definition.
 
 
 ### pipeline.yaml
