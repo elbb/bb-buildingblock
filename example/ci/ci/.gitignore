@@ -1,0 +1,10 @@
+credentials.yaml
+credentials.*.yaml
+!credentials.example.yaml
+config.local.yaml
+email.yaml
+email.*.yaml
+!email.template.yaml
+msteams.yaml
+msteams.*.yaml
+!msteams.template.yaml

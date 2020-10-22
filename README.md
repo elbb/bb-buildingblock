@@ -92,20 +92,7 @@ If you want to override project variables, copy `./local.env.template` to `./loc
 
 ## Using concourse CI for a CI/CD build
 
-The pipeline file must be uploaded to concourse CI via `fly`.
-Enter the build users ssh private key into the file `ci/credentials.template.yaml` and rename it to `ci/credentials.yaml`. Note the indentation of the ssh key as in the template file.
-
-**Note: `credentials.yaml` is ignored by `.gitignore` and will not be checked in.**
-
-In further releases there will be a key value store to keep track of the users credentials.
-Before setting the pipeline you might login first to your concourse instance `fly -t <target> login --concourse-url http://<concourse>:<port>`. See the [fly documentation](https://concourse-ci.org/fly.html) for more help.
-Upload the pipeline file with fly:
-
-    $ fly -t <target> set-pipeline -n -p bb-buildingblock -l ci/config.yaml -l ci/credentials.yaml -c pipeline.yaml
-
-After successfully uploading the pipeline to concourse CI login and unpause it. After that the pipeline should be triggered by new commits on the master branch (or new tags if enabled in `pipeline.yaml`).
-
-See the [integration documentation](README_CICD_INTEGRATION.md) on how to modify the `pipeline.yaml` and config files for your building block.
+We provide an example concourse CI/CD pipeline in `./example/ci`. See the [integration documentation](README_CICD_INTEGRATION.md) on how to modify the `pipeline.yaml` and config files for your building block.
 
 ## Versioning
 
@@ -119,14 +106,14 @@ These key-value pairs are also generated into other representations:
 ./gen/gitversion/json/gitversion.json  #json reprentation
 ./gen/gitversion/plain/*               #Filename==Key, Content==Value
 ```
-`BranchVersion` is a special key. This version information has different content for `master` and `non-master` branches.
+`GitVersion_BranchVersion` is a special key. This version information has different content for `master` and `non-master` branches.
 It is identically to `FullSemVer` in case of using the master branch. On all other branches it is identically to `InformationalVersion`.
 
 ### Examples
 
-You can find an example how to use `BranchVersion` in a dobi job at "[Using dobi for local build](#using-dobi-for-local-build)"
+You can find an example how to use `GitVersion_BranchVersion` in a dobi job at "[Using dobi for local build](#using-dobi-for-local-build)"
 
-You can find an example how to use `BranchVersion` in a cicd pipeline at [./example/ci/pipeline.yaml](./example/ci/pipeline.yaml)
+You can find an example how to use `GitVersion_BranchVersion` in a cicd pipeline at [./example/ci/pipeline.yaml](./example/ci/pipeline.yaml)
 
 # What is embedded linux building blocks
 
