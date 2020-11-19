@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add docker user/password for all docker images used for concourse ci
 - bb-gitversion version bump to 0.7.0
 
 ## [0.6.0] - 2020.Q4
