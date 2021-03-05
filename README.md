@@ -92,7 +92,7 @@ If you want to override project variables, copy `./local.env.template` to `./loc
 
 ## Using concourse CI for a CI/CD build
 
-We provide an example concourse CI/CD pipeline in `./example/ci`. See the [integration documentation](README_CICD_INTEGRATION.md) on how to modify the `pipeline.yaml` and config files for your building block.
+We provide an example concourse CI/CD pipeline in `./example/ci`. See the [integration documentation](README_CICD_INTEGRATION.md) on how to modify `pipeline.yaml` and config files for your building block.
 
 ## Versioning
 
