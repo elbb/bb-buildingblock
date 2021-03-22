@@ -8,3 +8,4 @@ email.*.yaml
 msteams.yaml
 msteams.*.yaml
 !msteams.template.yaml
+*.sh
