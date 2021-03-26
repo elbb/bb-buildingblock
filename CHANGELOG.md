@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2021.Q1
+
+- default branch is now `main`
+- added gitversion generation task
+- removed gitversion generation job from pipeline, since there is a race between multiple jobs
+- bb-gitversion version bump to 0.8.2
 - add docker user/password for all docker images used for concourse ci
-- bb-gitversion version bump to 0.7.0
 
 ## [0.6.0] - 2020.Q4
 

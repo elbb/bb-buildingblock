@@ -1,33 +1,26 @@
 ---
-# General stuff
-# -------------
+# Building block relevant stuff
+# -----------------------------
 ## Specifies the name of the building block
 bb_name: bb-example
 ## Specify the namespace for the building block image. This gets prefixed before <prefix>/<bb_name>
 ### example: bb_docker_namespace: "registry:5000/elbb" results in using "registry:5000/elbb/<bb_name>"
 ### "elbb" means using the docker hub, e.g. "elbb/<bb-name>"
-bb_docker_namespace: "registry:5000/elbb"
+bb_docker_namespace: "elbb"
 ## Specifies insecure docker registries, format "host:port" or "ip:port"
-bb_insecure_registries: ["registry:5000"]
+bb_insecure_registries: []
 ## Specify if 'latest' tags are build for `git_branch`
 bb_release_as_latest: true
 
 ## Specifies the version used for bb-gitversion
-bb_gitversion_version: 0.7.0
+bb_gitversion_version: 0.8.2
 
 # Git relevant stuff
 # ------------------
 ## Specify the git repository to work with
-git_source: https://github.com/elbb/bb-example.git
+git_source: https://github.com/elbb/bb-example
 ## Specify the git branch to work with
-git_branch: example
+git_branch: main
+default_branch: main
 ## This enables/disables ssl verification of the git resource
 git_skip_ssl_verification: false
-
-# S3 relevant stuff
-# -----------------
-## Specify the S3 endpoint URI
-# Using local environment for min.io
-s3_endpoint: http://minio:9000
-## This enables/disables the ssl verification for the S3 endpoint
-s3_skip_ssl_verification: true
